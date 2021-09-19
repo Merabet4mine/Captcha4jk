@@ -209,19 +209,3 @@ class Captcha {
     // --------------------------------------------------
 
 }
-
-
-fun main(args: Array<String>) {
-
-
-    val captcha = Captcha().builder(250, 100, "./", Color.white)
-        .addLines(10, 10, 1,Color.red)
-        .addNoise(false, Color.black)
-        .setFont("Arial", 50, Font.BOLD)
-        .setText(6, Color.black)
-        .build()
-
-    captcha.answer // String
-    captcha.image  // File
-
-}
