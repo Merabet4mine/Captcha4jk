@@ -8,6 +8,7 @@ import javax.imageio.ImageIO
 import java.awt.Color
 import java.awt.Font
 import java.io.File
+import kotlin.random.Random.Default.nextDouble
 
 /**
 CCCCCCCCCCCCC    444444444            JJJJJJJJJJJKKKKKKKKK    KKKKKKK
@@ -44,7 +45,7 @@ class Captcha {
     }
     private val noise = object {
         var isAdded = false
-        var fill = true
+        var fill = false
         var color:Color? = null
     }
     private val font = object {
@@ -53,7 +54,7 @@ class Captcha {
         var style = Font.BOLD
     }
     private val text = object {
-        var length = 5
+        var length = 6
         var color:Color? = Color.black
         var chars = ('a'..'z').toList() + ('0'..'9').toList()
     }
@@ -61,6 +62,7 @@ class Captcha {
         var isAdded = false
         var vertical = 5
         var horizontal = 5
+        var width = 1
         var color:Color? = text.color
     }
     // --------------------------------------------------
@@ -115,11 +117,13 @@ class Captcha {
         if (line.isAdded) {
             repeat(line.vertical){
                 graphic.color = line.color ?: randColor()
-                graphic.drawLine(nextInt(captcha.width), 0, nextInt(captcha.width), captcha.height)
+                val x = nextInt(captcha.width) to nextInt(captcha.width)
+                repeat(line.width) { graphic.drawLine(x.first+it, 0, x.second+it, captcha.height) }
             }
             repeat(line.horizontal){
                 graphic.color = line.color ?: randColor()
-                graphic.drawLine(0, nextInt(captcha.height), captcha.width, nextInt(captcha.height))
+                val y = nextInt(captcha.height) to nextInt(captcha.height)
+                repeat(line.width) { graphic.drawLine(0, y.first+it, captcha.width, y.second+it) }
             }
         }
         // --------------------------------------------------
@@ -129,7 +133,7 @@ class Captcha {
         graphic.color = text.color ?: randColor()
         answer.forEachIndexed { i, c ->
             val x = positionX + (i * (font.size / 2))
-            val y = positionY + nextInt(font.size / 3) * if (nextBoolean()) -1 else 1
+            val y = positionY - font.size * 0.2 + nextDouble(font.size * 0.2) * if (nextBoolean()) -1 else 1
             graphic.drawString(c.toString(), x.roundToInt(), y.roundToInt())
         }
         // --------------------------------------------------
@@ -167,10 +171,12 @@ class Captcha {
     // --------------------------------------------------
     fun addLines(vertical:Int = line.vertical,
                  horizontal:Int = line.horizontal,
+                 width:Int = line.width,
                  color:Color? = line.color) : Captcha {
         line.isAdded = true
         line.vertical = vertical
         line.horizontal = horizontal
+        line.width = width
         line.color = color
         return this
     }
@@ -179,6 +185,7 @@ class Captcha {
         return this
     }
     // --------------------------------------------------
+    fun setText(length:Int = text.length, color:Color? = text.color) = setText(length, color, text.chars)
     fun setText(length:Int = text.length,
                 color:Color? = text.color,
                 chars:List<Char> = text.chars) : Captcha {
@@ -200,5 +207,21 @@ class Captcha {
         return this
     }
     // --------------------------------------------------
+
+}
+
+
+fun main(args: Array<String>) {
+
+
+    val captcha = Captcha().builder(250, 100, "./", Color.white)
+        .addLines(10, 10, 1,Color.red)
+        .addNoise(false, Color.black)
+        .setFont("Arial", 50, Font.BOLD)
+        .setText(6, Color.black)
+        .build()
+
+    captcha.answer // String
+    captcha.image  // File
 
 }
