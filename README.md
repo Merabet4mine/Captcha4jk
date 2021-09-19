@@ -97,7 +97,12 @@ captcha.getImage();  // File
 
   **`removeNoises()`** : to remove noises.
 
-  
+  ----
+
+| ![1](1.png) | ![2](2.png) | ![3](3.png) |
+| ----------- | ----------- | ----------- |
+
+![0](0.gif)
 
 ----
 
