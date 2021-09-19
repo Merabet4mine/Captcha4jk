@@ -1,6 +1,5 @@
 # Captcha4jk
 Captcha4jk is a (Kotlin/Java) library for generating ***CAPTCHA*** challenge/answer pairs. 
-
 Captcha4jk is intended to be easy to implement and use sensible defaults, while providing easily-accesssible hooks for customization.
 
 
