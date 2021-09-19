@@ -6,7 +6,7 @@ Captcha4jk is intended to be easy to implement and use sensible defaults, while 
 
 ## Using the library
 
-You can download and create the library source code as you like. Or use the ***[jar](https://github.com/Merabet4mine/Captcha4jk/raw/main/c4jk.jar)*** file located above.
+You can download and create the library source code as you like. Or use the ***[jar](https://github.com/Merabet4mine/Captcha4jk/raw/main/c4jk.jar)*** file.
 
 - #### Kotlin
 
